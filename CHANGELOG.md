@@ -36,6 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [Calc-LPpulp.py]: src/Calc-LPpulp.py
 
 
-[unreleased]: https://github.com/btklab/py-mocks/compare/0.1.0..HEAD
-[0.1.0]: https://github.com/btklab/py-mocks/releases/tag/0.1.0
+[unreleased]: https://github.com/btklab/python-sketches/compare/0.1.0..HEAD
+[0.1.0]: https://github.com/btklab/python-sketches/releases/tag/0.1.0
 
