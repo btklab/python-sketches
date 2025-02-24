@@ -9,7 +9,7 @@
 
 A set of [Python](https://www.python.org/) script that filter text-object input from the pipeline(stdin) and return text-object.
 
-**Note**: This repository contains experimental PowerShell scripts for prototyping and exploring new ideas. Although these scripts have been run by the author, they are not intended for production use and may be unstable or incomplete.
+**Note**: This repository contains experimental Python scripts for prototyping and exploring new ideas. Although these scripts have been run by the author, they are not intended for production use and may be unstable or incomplete.
 
 - For use in UTF-8 Japanese environments on windows.
 - For my personal work and hobby use.
