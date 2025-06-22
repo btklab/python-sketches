@@ -44,11 +44,13 @@ def get_args():
     Usage: 
         pysym.py 'x**2 - 2*x - 15' [--latex|--simplify|--dot] [--sympify]
         pysym.py 'sympy.factor(x**2 - 2*x - 15)' [--latex|--simplify|--dot] [--sympify]
-        -> 数式をsympyが解釈して出力。--latexでlatex数式変換
-        -> --sympifyで数式を文字列として渡す。ただし数式中に=がある場合はうまく動作しない
+
+        - The expression is parsed and evaluated by SymPy. Use --latex to convert to LaTeX format.
+        - Use --sympify to pass the expression as a raw string. However, this option may not work
+          properly if the expression contains "=".
 
     Option:
-        -v '<val1>=<str>;<val2>=<str>;...' 変数の宣言と代入
+        -v '<val1>=<str>;<val2>=<str>;...' : Declare and assign variables
 
     Default settings:
         sympy.init_printing(use_unicode=True)
@@ -68,170 +70,174 @@ def get_args():
     """
     help_epi_msg = """EXAMPLES:
 
-    === 電卓として使う ===
+    **Use as a calculator**
+
+    # Using it as a calculator: 3
     pysym.py '1+2'
-    # 電卓として使う: 3
 
+    # Using it as a calculator: 120.0
     pysym.py '1.2e2'
-    # 電卓として使う: 120.0
 
+    # Using it as a calculator: 3628800
     pysym.py 'sympy.factorial(10)'
-    # 電卓として使う: 3628800
 
+    # Polynomial expansion: x**2 - y**2
     pysym.py "sympy.expand('(x+y)*(x-y)')"
-    # 多項式の展開: x**2 - y**2
 
+    # Executing Python commands: <class 'float'>
+    # Since eval is used internally, this kind of operation is possible
     pysym.py 'type(1.2e2)'
-    # pythonコマンドの実行: <class 'float'>
-    # 内部でevalを用いているので、こういうことができる
 
-
-    === 数式の演算・シンプル化・LaTeX形式変換 ===
+    **Expression evaluation, simplification, and LaTeX conversion**
 
     pysym.py 'x**2 + 2*x + 1'
-    # 数式表示: x**2 + 2*x + 1
+    # Display expression: x**2 + 2*x + 1
 
     pysym.py 'x**2 + 2*x + 1' --latex (-l)
-    # latex変換: x^{2} + 2 x + 1
+    # Convert to LaTeX: x^{2} + 2 x + 1
 
     pysym.py '(x**2 + 2*x + 1).subs(x,1)'
-    # 値の代入: 4
+    # Substitute a value: 4
 
     pysym.py '(x**2 + 2*x + 1 + y**2).subs([(x,1),(y,2)])'
-    # 複数の値の代入はタプルを用いる: 8
+    # Substitute multiple values using tuples: 8
 
-    === LaTeX形式の式と代入結果の同時出力 ===
+    
+    **Simultaneous output of LaTeX expression and substitution result**
 
-    python pysym.py '(x**2 + 2*x + 1 + y**2).subs([(x,1),(y,2)])' --eq
+    pysym.py '(x**2 + 2*x + 1 + y**2).subs([(x,1),(y,2)])' --eq
     \begin{align}
     x^{2} + 2 x + y^{2} + 1 &= 8 \\
     \end{align}
 
-    === 変数オプション-vを活用する ===
+    **Using the variable option `-v`**
 
+    # You can add symbols via the -v option: X*Y + x**2 + 2*x + 1
     pysym.py 'x**2 + 2*x + 1 + X*Y' -v "X,Y=sympy.symbols('X Y')"
-    # 記号の追加は-vオプションでできる: X*Y + x**2 + 2*x + 1
 
+    # The -v option supports multiple definitions separated by semicolons: X*Y*Z + x**2 + 2*x + 1
     pysym.py 'x**2 + 2*x + 1 + X*Y*Z' -v "X, Y=sympy.symbols('X Y');Z=sympy.symbols('Z')"
-    # -vオプションはセミコロン;区切りで複数指定可能: X*Y*Z + x**2 + 2*x + 1
 
+    # Define a function in Python expression: x**2
     pysym.py 'f(x)' -v 'def f(x): return x**2'
-    # python式に関数定義: x**2
 
+    # Find the x-coordinates where y = x**2 - 1 and y = 4*x - 5 intersect or touch: [2]
     pysym.py 'sympy.solve(sympy.Eq(f(x), g(x)), x)' -v 'def f(x): return x**2 - 1; def g(x): return 4*x - 5'
-    # y = x**2 -1 と y = 4*x - 5 が交差または接している点の x 座標: [2]
     ↓
-    # 解が一つなので1点で接している。その座標は？
+    # Since there is only one solution, they touch at a single point. What is the coordinate?
     pysym.py '2,f(2)' -v 'def f(x): return x**2 - 1; def g(x): return 4*x - 5;'
     # (2, 3)
     ↓
-    # 接線の傾き
+    # Slope of the tangent line
     pysym.py 'sympy.diff(f(x), x).subs(x, 2)' -v 'def f(x): return x**2 - 1; def g(x): return 4*x - 5;'
     # 4
 
-    # 2次方程式の解の公式
+    # Quadratic formula solution
     pysym.py 'sympy.Eq(a*x**2+b*x+c, (-b + sympy.sqrt(-4*a*c + b**2))/(2*a))' --latex
     # normal: Eq(a*x**2 + b*x + c, (-b + sqrt(-4*a*c + b**2))/(2*a))
     # latex:  a x^{2} + b x + c = \frac{- b + \sqrt{- 4 a c + b^{2}}}{2 a}
 
+    
+    **Various operations**
 
-    === いろいろな演算 ===
-
+    # Solve simultaneous equations: {x: 3, y: 4}
     pysym.py 'sympy.solve([3*x + 5*y -29, x + y - 7])'
-    # 連立方程式を解く: {x: 3, y: 4}
 
-    pysym.py 'sympy.summation(k, (k, 1, 10) )' -v "k=sympy.symbols('k', integer = True)"
-    # 総和を求める: 55
+    # Calculate summation: 55
+    pysym.py 'sympy.summation(k, (k, 1, 10))' -v "k=sympy.symbols('k', integer=True)"
 
-    pysym.py 'sympy.factor(sympy.summation(k, (k, 1, N) ))' -v "k, N=sympy.symbols('k N', integer = True)"
-    # 総和。上限を文字にしてもいい: N*(N + 1)/2
+    # Summation with symbolic upper limit: N*(N + 1)/2
+    pysym.py 'sympy.factor(sympy.summation(k, (k, 1, N)))' -v "k, N=sympy.symbols('k N', integer=True)"
 
+    # Define a function in Python expression: x**2
     pysym.py 'f(x)' -v 'def f(x): return x**2'
-    # python式に関数定義: x**2
 
+    # Factorization: (x + 1)**2
     pysym.py 'sympy.factor(x**2 + 2*x + 1)'
-    # 因数分解: (x + 1)**2
 
+    # Differentiation: 2*x - 2
     pysym.py 'sympy.diff(x**2 - 2*x - 15)'
-    # 微分: 2*x - 2
 
+    # Indefinite integral: x**3/3 - x**2 - 15*x
     pysym.py 'sympy.integrate(x**2 - 2*x - 15)'
-    # 積分: x**3/3 - x**2 - 15*x
 
+    # Definite integral: 250/3
     pysym.py 'sympy.integrate(x**2 - 2*x - 15, (x, 0, 10))'
-    # 定積分: 250/3
 
+    # Solve equations: {x: -3, y: 1}
     pysym.py 'sympy.solve([x + 5*y - 2, -3*x + 6*y - 15], [x, y])'
-    # 方程式の求解: {x: -3, y: 1}
 
-    ## calc matrix: 行列の演算
-    ## thanks: https://atatat.hatenablog.com/entry/sympy10_matrix
+    
+    **calc matrix**
 
+    * thanks: How to use SymPy 10 - Matrix Definition and Operations - A Memo
+      https://atatat.hatenablog.com/entry/sympy10_matrix
+
+    # Define a matrix: Matrix([[a, b], [c, d]])
     pysym.py 'sympy.Matrix([[a, b], [c, d]])' -v 'a,b,c=sympy.symbols("a b c"); d,e,f=sympy.symbols("d e f")'
-    # 行列の定義: Matrix([[a, b], [c, d]])
 
+    # Define a column vector: Matrix([[x], [y]])
     pysym.py 'sympy.Matrix([x, y])'
-    # 列ベクトルの定義: Matrix([[x], [y]])
 
+    # Define a row vector: Matrix([[x, y]])
     pysym.py 'sympy.Matrix([[x, y]])'
-    # 行ベクトルの定義: Matrix([[x, y]])
 
+    # Matrix multiplication result: Matrix([[a*x + b*y], [c*x + d*y]])
     pysym.py 'A*B' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]]);B=sympy.Matrix([x, y])'
-    # Matrix([[a*x + b*y], [c*x + d*y]])
 
+    # Matrix addition: Matrix([[4, 6], [8, 10]])
     pysym.py 'A+B' -v 'A=sympy.Matrix([[1,2], [3,4]]);B=sympy.Matrix([[3, 4],[5,6]])'
-    # 行列の和: Matrix([[4, 6], [8, 10]])
 
+    # Get matrix dimensions: (2, 2)
     pysym.py 'A.shape' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-    # 行列の数を取得: (2, 2)
 
+    # Get matrix row: Matrix([[a, b]])
     pysym.py 'A.row(0)' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-    # 行列の成分を取得: Matrix([[a, b]])
 
+    # Get matrix column: Matrix([[b], [d]])
     pysym.py 'A.col(1)' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-    # 行列の成分を取得: Matrix([[b], [d]])
 
+    # Transpose matrix: Matrix([[a, c], [b, d]])
     pysym.py 'A.transpose()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-    # 行列の転置: Matrix([[a, c], [b, d]])
 
+    # Determinant: a*d - b*c
     pysym.py 'A.det()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-    # 行列式（determinant）: a*d - b*c
 
+    # Inverse matrix: Matrix([[d/(a*d - b*c), -b/(a*d - b*c)], [-c/(a*d - b*c), a/(a*d - b*c)]])
     pysym.py 'A.inv()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
     pysym.py 'A**(-1)' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-    # 逆行列: Matrix([[d/(a*d - b*c), -b/(a*d - b*c)], [-c/(a*d - b*c), a/(a*d - b*c)]])
 
+    # Eigenvalues: {a/2 + d/2 - sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2: 1, a/2 + d/2 + sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2: 1}
     pysym.py 'A.eigenvals()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-    # 固有値: {a/2 + d/2 - sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2: 1, a/2 + d/2 + sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2: 1}
 
-    pysym.py 'A.eigenvects()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-    # 固有ベクトル:
+    # Eigenvectors:
     # [(a/2 + d/2 - sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2, 1, [Matrix([
     # [-d/c + (a/2 + d/2 - sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2)/c],
     # [                                                         1]])]), (a/2 + d/2 + sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2, 1, [Matrix([
     # [-d/c + (a/2 + d/2 + sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2)/c],
     # [                                                         1]])])]
+    pysym.py 'A.eigenvects()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
 
-    pysym.py 'A.rref()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[5, -2, 5], [1, 1, 8]])'
-    # 階段行列:
+    # Reduced row echelon form:
     # (Matrix([
     # [1, 0, 3],
     # [0, 1, 5]]), (0, 1))
+    pysym.py 'A.rref()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[5, -2, 5], [1, 1, 8]])'
 
+    
+    **Plotting with Matplotlib**
 
-    === Matplotlibを用いたplot（グラフ描画） ===
-
+    
+    # Sine curve
     pysym.py "sympy.plot(sin(x), (x, -2*pi, 2*pi))"
-    pysym.py "sympy.plot(sin(x), (x, -2*pi, 2*pi), title='タイトル', xlabel='横軸')"
-    # サインカーブ
+    pysym.py "sympy.plot(sin(x), (x, -2*pi, 2*pi), title='Title', xlabel='X-axis')"
 
+    # Example using matplotlib: plt.show()
     pysym.py 'plt.plot(s,t);plt.show()' -v 's=[i for i in range(6)];t=[i**2 for i in s]'
     [<matplotlib.lines.Line2D object at 0x7fe4c0a20670>]
-    # plt.show()
 
+    # Specify graph size with --size width,height
     pysym.py 'sympy.plot_parametric(cos(x), sin(x), (x, 0, 2*pi))' --size 5,5
-    # グラフサイズの指定
-
 
 """
     parser = argparse.ArgumentParser(description=help_desc_msg,

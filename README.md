@@ -25,11 +25,12 @@ script list:
 
 - [pycalc.py], [pymatcalc.py], [pysym.py], [Calc-LPpulp.py], [Get-PeriodicTable.py], [Get-MolecularMass.py], [Calc-ChemWeightRL.py], [Calc-ChemWeightLR.py], [Calc-ChemMassPercent.py], [pyplot.py], [pyplot-pandas.py], [pyplot-x-rs.py], [pyplot-timeline2.py]
 
-主に現実世界の不定形文字列に対してパターンマッチング処理を行うためのフィルタ群。基本的な入力として、UTF-8＋半角スペース区切り＋行指向のパイプライン経由文字列データ（テキストオブジェクト）を期待する。
+A collection of filters primarily designed for pattern matching on irregular real-world text strings. It expects input in the form of UTF-8 encoded, space-delimited, line-oriented string data passed through a pipeline (text objects).
 
-`src`下のファイルは1ファイル1関数。基本的に他の関数には依存しないようにしているので、関数ファイル単体を移動して利用することもできる。（一部の関数は他の関数ファイルに依存しているものもある）
+Each file under the `src` directory defines a single function. Most functions are self-contained and do not depend on others, allowing each file to be reused independently.  
+(Some functions do have dependencies on others.)
 
-**充分なエラー処理をしていない**モックアップ。事務職（非技術職）な筆者の毎日の仕事（おもに文字列処理）を、簡単便利に楽しくさばくための道具としてのコマンドセット。
+This is a **mockup with minimal error handling**. It’s a set of command-line tools created by a non-technical office worker to efficiently, conveniently, and enjoyably handle daily text processing tasks.
 
 
 ## Install functions
@@ -40,8 +41,7 @@ script list:
     - if you use PowerShell, run the following dot sourcing command
         - `. path/to/python-sketches/operator.ps1`
 
-関数群はUTF-8エンコードされた入力を期待するので、
-関数実行前にカレントプロセスのエンコードを`UTF-8`にしておくとよい。
+Since the functions expect UTF-8 encoded input, it’s recommended to set the current process encoding to `UTF-8` before running them.
 
 ```powershell
 # for PowerShell
@@ -64,8 +64,7 @@ if ($IsWindows){
 
 ## Description of each functions
 
-各関数の挙動と作った動機と簡単な説明。
-
+The behavior, motivation, and a brief description of each function.
 
 ### Multipurpose
 
@@ -82,18 +81,13 @@ if ($IsWindows){
 - Library
     - require: `argparse`, `numpy`, `pandas`
 
+Standard input is read using `df = pd.read_csv(sys.stdin, sep=delimiter)`. Input from a file is also supported using the `-i <file>` option instead of a pipeline.
 
-標準入力を df=pd.read_csv(sys.stdin, sep=delimiter)にて読み込む
-`-i <file>`パイプライン経由でなくファイルからの入力も可能
+Multiple `<formula>` entries can be specified, separated by semicolons. If a formula contains an `=`, it will be executed using `exec(formula)`; if not, it will be evaluated as `ans = eval(formula)`.
 
-`<formula>`はセミコロン区切りで複数指定可能。
-formulaに`=`が含まれておればexec(formula)、
-含まれないならans=eval(formula)が実行される。
+However, if the `=` appears only inside parentheses, the formula is treated as an `eval`. For example, `df.describe(include='all')` is evaluated using `eval`.
 
-ただし、()の中だけにイコールがある場合はevalになる。
-たとえば`df.describe(include='all')`はeval。
-
-`-v '<val1>=<str>;<val2>=<str>;...'`で変数に代入できる
+Variables can be assigned using the `-v '<val1>=<str>;<val2>=<str>;...'` option.
 
 Options:
 
@@ -209,7 +203,7 @@ cat iris.ssv |
 ```
 
 ```powershell
-# 「species」列のカテゴリごとに要約統計量を出力
+# Output summary statistics grouped by the "species" column
 cat iris.csv | self $_ NF | python pycalc.py "df.groupby('species').describe()" --nowrap -d ","
 ```
 
@@ -218,23 +212,23 @@ cat iris.csv | python pycalc.py "df[df.columns[:]].groupby('species').describe()
 ```
 
 ```powershell
-# 変数の活用
+# Using variables
 echo 1 | python pycalc.py 's,t' -v 's=[i for i in range(6)];t=[i**2 for i in s]'
 ([0, 1, 2, 3, 4, 5], [0, 1, 4, 9, 16, 25])
 ```
 
 ```powershell
-# Matplotlibを用いたグラフ描画
-## formulaに"plot"または"plt"をみつけるとimport matplotlib as pltを読み込む
+# Plotting with Matplotlib
+## If "plot" or "plt" is found in the formula, matplotlib is automatically imported as plt
 cat iris.csv | python pycalc.py -d "," "ax=df.groupby('species').max().plot.bar(rot=0);plt.show()"
 
-# 式をセミコロンで区切ると複数の式を記述できる
+# Multiple formulas can be specified using semicolons
 echo 1 | python pycalc.py 'plt.plot(s,t);plt.show()' -v 's=[i for i in range(6)];t=[i**2 for i in s]'
 [<matplotlib.lines.Line2D object at 0x7f96395f19a0>]
 ```
 
 ```powershell
-# dataframe生成
+# Creating a DataFrame
 echo 1 | python pycalc.py "df=pd.DataFrame({'city': ['osaka', 'osaka', 'osaka', 'osaka', 'tokyo', 'tokyo', 'tokyo'],'food': ['apple', 'orange', 'banana', 'banana', 'apple', 'apple', 'banana'],'price': [100, 200, 250, 300, 150, 200, 400],'quantity': [1, 2, 3, 4, 5, 6, 7]});df"
 echo 1 | python pycalc.py "df=...; df.groupby('city').mean()"
 echo 1 | python pycalc.py "df=...; df.groupby('city').mean().T"
@@ -249,12 +243,12 @@ echo 1 | python pycalc.py "df=...; df.groupby('city').agg({'price': np.mean, 'qu
 ```
 
 ```powershell
-# query
-cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('sl < 5.0' )"
-cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('4.9 <= sl < 5.0' )"
-cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('sl > sw / 3' )"
-cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('species == 'setosa'')"
-cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('species in ['setosa']')"
+# Query examples
+cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('sl < 5.0')"
+cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('4.9 <= sl < 5.0')"
+cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('sl > sw / 3')"
+cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('species == \"setosa\"')"
+cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('species in [\"setosa\"]')"
 
 cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('index % 2 == 0')"
 
@@ -262,7 +256,7 @@ cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species
 cat iris.csv | python pycalc.py -d "," "df.columns=['sl','sw','pl','pw','species'];df.query('sl > 5.0 and sw < 2.5')"
 ```
 
-Solve simultaneous equations
+Solve simultaneous equations:
 
 ```powershell
 echo 1 | python pycalc.py 'L=[[3/4,5/2], [-2,1]];R=[-6,-7];np.linalg.solve(L, R)'
@@ -286,9 +280,7 @@ echo 1 | python pycalc.py 'L=[[3/4,5/2], [-2,1]];R=[-6,-7];np.linalg.solve(L, R)
 - Dependency
     - require: `argparse`, `numpy`
 
-入力は複数行ならば行列、1行だけならばベクトルになる。
-パイプラインを複数つなげれば演算結果を再利用できる。
-
+If the input has multiple lines, it is treated as a matrix. if it has only one line, it is treated as a vector. By chaining multiple pipelines, you can reuse the results of previous operations.
 
 Usage:
 
@@ -298,7 +290,7 @@ pymatcalc '[<key>=]<formula>'
 good: pymatcalc 'A@B'
 good: pymatcalc 'C=A@B'
 
-formulaに"="を用いる場合は、必ずkeyを指定すること。
+When using `=` in a formula, you must always specify a key (variable name).
 
 good: pymatcalc 'C=np.eye(1, dtype=int)'
 ng:   pymatcalc 'np.eye(1, dtype=int)'
@@ -315,24 +307,23 @@ label val val ...
 Functions:
 
 ```powershell
-# スカラー積: pymatcalc 'C=A*B'
-# アダマール積: pymatcalc 'C=np.multiply(A, B)'
-# 単位行列1: pymatcalc 'C=np.eye(n, dtype=int)'
-# 単位行列2: pymatcalc 'C=np.identity(n, dtype=int)'
-# 転置行列: pymatcalc 'C=A.T'
-# 行列式: pymatcalc 'C=np.linalg.det(A)*np.eye(1)'
-# - 出力が値の場合は単位行列を掛ける
-# 逆行列: pymatcalc 'np.linalg.inv(A)'
-# 固有値と固有ベクトル: pymatcalc 'np.linalg.eig(A)[0]'
-# 固有値と固有ベクトル: pymatcalc 'np.linalg.eig(A)[1]'
-# 内積（ドット積）: pymatcalc 'np.dot(A, B)'
-# 行列積1: pymatcalc 'A@B'
-# 行列積2: pymatcalc 'np.matmul(A, B)'
-# ベクトル内積: pymatcalc 'np.inner(A, B)'
-# ベクトル外積: pymatcalc 'np.outer(A, B)'
-# ランダム行列の生成: 'C=np.random.randint(-10,10,size=(3,3))'
-
-# 連立方程式を解く: pymatcalc 'C=np.linalg.inv(L)@R'
+# Scalar product: pymatcalc 'C=A*B'
+# Hadamard product (element-wise multiplication): pymatcalc 'C=np.multiply(A, B)'
+# Identity matrix (method 1): pymatcalc 'C=np.eye(n, dtype=int)'
+# Identity matrix (method 2): pymatcalc 'C=np.identity(n, dtype=int)'
+# Transpose matrix: pymatcalc 'C=A.T'
+# Determinant: pymatcalc 'C=np.linalg.det(A)*np.eye(1)'
+# - When the result is a scalar, multiply by an identity matrix for consistent output shape
+# Inverse matrix: pymatcalc 'np.linalg.inv(A)'
+# Eigenvalues: pymatcalc 'np.linalg.eig(A)[0]'
+# Eigenvectors: pymatcalc 'np.linalg.eig(A)[1]'
+# Dot product (inner product): pymatcalc 'np.dot(A, B)'
+# Matrix multiplication (method 1): pymatcalc 'A@B'
+# Matrix multiplication (method 2): pymatcalc 'np.matmul(A, B)'
+# Vector inner product: pymatcalc 'np.inner(A, B)'
+# Vector outer product: pymatcalc 'np.outer(A, B)'
+# Generate a random matrix: 'C=np.random.randint(-10,10,size=(3,3))'
+# Solve a system of linear equations: pymatcalc 'C=np.linalg.inv(L)@R'
 ```
 
 EXAMPLES:
@@ -469,24 +460,25 @@ ANS 2.0
 
 [pysym.py]: src/pysym.py
 
-[sympy](https://docs.sympy.org/latest/index.html)ワンライナー。
+[sympy](https://docs.sympy.org/latest/index.html) one-liner utility.
 
-- Usage
-    - man: `python pysym.py -h`
-    - `pysym.py [-h] [-l] [-u] [-s] [--sympify] [--dot] [-m MODULE] [-v VARIABLE] [-i INPUTFILE] [--size SIZE] [--debug]`
-- Example
-    - `pysym.py 'x**2 - 2*x - 15' [--latex|--simplify|--dot] [--sympify]`
-    - `pysym.py 'sympy.factor(x**2 - 2*x - 15)'`
-    - `pysym.py 'sympy.factor(x**2 - 2*x - 15).subs(x,2)'`
-        - 数式をsympyが解釈して出力
-        - `--latex` : latex数式変換
-        - `--dot` : graphviz描画用dot言語変換
-        - `--sympify` : 数式を文字列として渡す。<br />ただし数式中に`=`がある場合はうまく動作しない
-- Options
-    - `-v '<val1>=<str>;<val2>=<str>;...'`で変数に代入できる
-- Dependencies
+* **Usage**
+  * Manual: `python pysym.py -h`
+  * `pysym.py [-h] [-l] [-u] [-s] [--sympify] [--dot] [-m MODULE] [-v VARIABLE] [-i INPUTFILE] [--size SIZE] [--debug]`
+* **Examples**
+  * `pysym.py 'x**2 - 2*x - 15' [--latex|--simplify|--dot] [--sympify]`
+  * `pysym.py 'sympy.factor(x**2 - 2*x - 15)'`
+  * `pysym.py 'sympy.factor(x**2 - 2*x - 15).subs(x, 2)'`
+    * The expression is parsed and evaluated by SymPy
+    * `--latex`: convert the expression to LaTeX format
+    * `--dot`: convert the expression to Graphviz dot language for visualization
+    * `--sympify`: treat the expression as a raw string
+      *Note: expressions containing `=` may not work properly with this option*
+* **Options**
+  * Use `-v '<val1>=<str>;<val2>=<str>;...'` to assign values to variables
+- **Dependencies**
     - `sympy`, `argparse`, `numpy`, `matplotlib`
-- Notes
+- **Notes**
     - Default settings
         - `sympy.init_printing(use_unicode=True)`
         - `x, y, z = sympy.symbols('x y z')`
@@ -504,44 +496,43 @@ ANS 2.0
 
 Examples:
 
-**電卓として使う**
+**Use as a calculator**
 
 ```powershell
-
+# Using it as a calculator: 3
 pysym.py '1+2'
-# 電卓として使う: 3
 
+# Using it as a calculator: 120.0
 pysym.py '1.2e2'
-# 電卓として使う: 120.0
 
+# Using it as a calculator: 3628800
 pysym.py 'sympy.factorial(10)'
-# 電卓として使う: 3628800
 
+# Polynomial expansion: x**2 - y**2
 pysym.py "sympy.expand('(x+y)*(x-y)')"
-# 多項式の展開: x**2 - y**2
 
+# Executing Python commands: <class 'float'>
+# Since eval is used internally, this kind of operation is possible
 pysym.py 'type(1.2e2)'
-# pythonコマンドの実行: <class 'float'>
-# 内部でevalを用いているので、こういうことができる
 ```
 
-**数式の演算・シンプル化・LaTeX形式変換**
+**Expression evaluation, simplification, and LaTeX conversion**
 
 ```powershell
 pysym.py 'x**2 + 2*x + 1'
-# 数式表示: x**2 + 2*x + 1
+# Display expression: x**2 + 2*x + 1
 
 pysym.py 'x**2 + 2*x + 1' --latex (-l)
-# latex変換: x^{2} + 2 x + 1
+# Convert to LaTeX: x^{2} + 2 x + 1
 
 pysym.py '(x**2 + 2*x + 1).subs(x,1)'
-# 値の代入: 4
+# Substitute a value: 4
 
 pysym.py '(x**2 + 2*x + 1 + y**2).subs([(x,1),(y,2)])'
-# 複数の値の代入はタプルを用いる: 8
+# Substitute multiple values using tuples: 8
 ```
 
-**LaTeX形式の式と代入結果の同時出力**
+**Simultaneous output of LaTeX expression and substitution result**
 
 ```powershell
 pysym.py '(x**2 + 2*x + 1 + y**2).subs([(x,1),(y,2)])' --eq
@@ -550,139 +541,138 @@ x^{2} + 2 x + y^{2} + 1 &= 8 \\
 \end{align}
 ```
 
-
-
-**変数オプション-vを活用する**
+**Using the variable option `-v`**
 
 ```powershell
+# You can add symbols via the -v option: X*Y + x**2 + 2*x + 1
 pysym.py 'x**2 + 2*x + 1 + X*Y' -v "X,Y=sympy.symbols('X Y')"
-# 記号の追加は-vオプションでできる: X*Y + x**2 + 2*x + 1
 
+# The -v option supports multiple definitions separated by semicolons: X*Y*Z + x**2 + 2*x + 1
 pysym.py 'x**2 + 2*x + 1 + X*Y*Z' -v "X, Y=sympy.symbols('X Y');Z=sympy.symbols('Z')"
-# -vオプションはセミコロン;区切りで複数指定可能: X*Y*Z + x**2 + 2*x + 1
 
+# Define a function in Python expression: x**2
 pysym.py 'f(x)' -v 'def f(x): return x**2'
-# python式に関数定義: x**2
 
+# Find the x-coordinates where y = x**2 - 1 and y = 4*x - 5 intersect or touch: [2]
 pysym.py 'sympy.solve(sympy.Eq(f(x), g(x)), x)' -v 'def f(x): return x**2 - 1; def g(x): return 4*x - 5'
-# y = x**2 -1 と y = 4*x - 5 が交差または接している点の x 座標: [2]
 ↓
-# 解が一つなので1点で接している。その座標は？
+# Since there is only one solution, they touch at a single point. What is the coordinate?
 pysym.py '2,f(2)' -v 'def f(x): return x**2 - 1; def g(x): return 4*x - 5;'
 # (2, 3)
 ↓
-# 接線の傾き
+# Slope of the tangent line
 pysym.py 'sympy.diff(f(x), x).subs(x, 2)' -v 'def f(x): return x**2 - 1; def g(x): return 4*x - 5;'
 # 4
 
-# 2次方程式の解の公式
+# Quadratic formula solution
 pysym.py 'sympy.Eq(a*x**2+b*x+c, (-b + sympy.sqrt(-4*a*c + b**2))/(2*a))' --latex
 # normal: Eq(a*x**2 + b*x + c, (-b + sqrt(-4*a*c + b**2))/(2*a))
 # latex:  a x^{2} + b x + c = \frac{- b + \sqrt{- 4 a c + b^{2}}}{2 a}
 ```
 
-**いろいろな演算**
+**Various operations**
 
 ```powershell
+# Solve simultaneous equations: {x: 3, y: 4}
 pysym.py 'sympy.solve([3*x + 5*y -29, x + y - 7])'
-# 連立方程式を解く: {x: 3, y: 4}
 
-pysym.py 'sympy.summation(k, (k, 1, 10) )' -v "k=sympy.symbols('k', integer = True)"
-# 総和を求める: 55
+# Calculate summation: 55
+pysym.py 'sympy.summation(k, (k, 1, 10))' -v "k=sympy.symbols('k', integer=True)"
 
-pysym.py 'sympy.factor(sympy.summation(k, (k, 1, N) ))' -v "k, N=sympy.symbols('k N', integer = True)"
-# 総和。上限を文字にしてもいい: N*(N + 1)/2
+# Summation with symbolic upper limit: N*(N + 1)/2
+pysym.py 'sympy.factor(sympy.summation(k, (k, 1, N)))' -v "k, N=sympy.symbols('k N', integer=True)"
 
+# Define a function in Python expression: x**2
 pysym.py 'f(x)' -v 'def f(x): return x**2'
-# python式に関数定義: x**2
 
+# Factorization: (x + 1)**2
 pysym.py 'sympy.factor(x**2 + 2*x + 1)'
-# 因数分解: (x + 1)**2
 
+# Differentiation: 2*x - 2
 pysym.py 'sympy.diff(x**2 - 2*x - 15)'
-# 微分: 2*x - 2
 
+# Indefinite integral: x**3/3 - x**2 - 15*x
 pysym.py 'sympy.integrate(x**2 - 2*x - 15)'
-# 積分: x**3/3 - x**2 - 15*x
 
+# Definite integral: 250/3
 pysym.py 'sympy.integrate(x**2 - 2*x - 15, (x, 0, 10))'
-# 定積分: 250/3
 
+# Solve equations: {x: -3, y: 1}
 pysym.py 'sympy.solve([x + 5*y - 2, -3*x + 6*y - 15], [x, y])'
-# 方程式の求解: {x: -3, y: 1}
 ```
 
-**calc matrix: 行列の演算**
+**calc matrix**
 
-- thanks: [SymPyの使い方10 ～ 行列の定義・操作 - つれづれなる備忘録](https://atatat.hatenablog.com/entry/sympy10_matrix)
+* thanks: [How to use SymPy 10 – Matrix Definition and Operations - A Memo](https://atatat.hatenablog.com/entry/sympy10_matrix)
 
 ```powershell
+# Define a matrix: Matrix([[a, b], [c, d]])
 pysym.py 'sympy.Matrix([[a, b], [c, d]])' -v 'a,b,c=sympy.symbols("a b c"); d,e,f=sympy.symbols("d e f")'
-# 行列の定義: Matrix([[a, b], [c, d]])
 
+# Define a column vector: Matrix([[x], [y]])
 pysym.py 'sympy.Matrix([x, y])'
-# 列ベクトルの定義: Matrix([[x], [y]])
 
+# Define a row vector: Matrix([[x, y]])
 pysym.py 'sympy.Matrix([[x, y]])'
-# 行ベクトルの定義: Matrix([[x, y]])
 
+# Matrix multiplication result: Matrix([[a*x + b*y], [c*x + d*y]])
 pysym.py 'A*B' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]]);B=sympy.Matrix([x, y])'
-# Matrix([[a*x + b*y], [c*x + d*y]])
 
+# Matrix addition: Matrix([[4, 6], [8, 10]])
 pysym.py 'A+B' -v 'A=sympy.Matrix([[1,2], [3,4]]);B=sympy.Matrix([[3, 4],[5,6]])'
-# 行列の和: Matrix([[4, 6], [8, 10]])
 
+# Get matrix dimensions: (2, 2)
 pysym.py 'A.shape' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-# 行列の数を取得: (2, 2)
 
+# Get matrix row: Matrix([[a, b]])
 pysym.py 'A.row(0)' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-# 行列の成分を取得: Matrix([[a, b]])
 
+# Get matrix column: Matrix([[b], [d]])
 pysym.py 'A.col(1)' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-# 行列の成分を取得: Matrix([[b], [d]])
 
+# Transpose matrix: Matrix([[a, c], [b, d]])
 pysym.py 'A.transpose()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-# 行列の転置: Matrix([[a, c], [b, d]])
 
+# Determinant: a*d - b*c
 pysym.py 'A.det()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-# 行列式（determinant）: a*d - b*c
 
+# Inverse matrix: Matrix([[d/(a*d - b*c), -b/(a*d - b*c)], [-c/(a*d - b*c), a/(a*d - b*c)]])
 pysym.py 'A.inv()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
 pysym.py 'A**(-1)' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-# 逆行列: Matrix([[d/(a*d - b*c), -b/(a*d - b*c)], [-c/(a*d - b*c), a/(a*d - b*c)]])
 
+# Eigenvalues: {a/2 + d/2 - sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2: 1, a/2 + d/2 + sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2: 1}
 pysym.py 'A.eigenvals()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-# 固有値: {a/2 + d/2 - sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2: 1, a/2 + d/2 + sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2: 1}
 
-pysym.py 'A.eigenvects()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
-# 固有ベクトル:
+# Eigenvectors:
 # [(a/2 + d/2 - sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2, 1, [Matrix([
 # [-d/c + (a/2 + d/2 - sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2)/c],
 # [                                                         1]])]), (a/2 + d/2 + sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2, 1, [Matrix([
 # [-d/c + (a/2 + d/2 + sqrt(a**2 - 2*a*d + 4*b*c + d**2)/2)/c],
 # [                                                         1]])])]
+pysym.py 'A.eigenvects()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[a, b], [c, d]])'
 
-pysym.py 'A.rref()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[5, -2, 5], [1, 1, 8]])'
-# 階段行列:
+# Reduced row echelon form:
 # (Matrix([
 # [1, 0, 3],
 # [0, 1, 5]]), (0, 1))
+pysym.py 'A.rref()' -v 'd=sympy.symbols("d");A=sympy.Matrix([[5, -2, 5], [1, 1, 8]])'
 ```
 
-** Matplotlibを用いたplot（グラフ描画）**
+**Plotting with Matplotlib**
 
 ```powershell
+# Sine curve
 pysym.py "sympy.plot(sin(x), (x, -2*pi, 2*pi))"
-pysym.py "sympy.plot(sin(x), (x, -2*pi, 2*pi), title='タイトル', xlabel='横軸')"
-# サインカーブ
+pysym.py "sympy.plot(sin(x), (x, -2*pi, 2*pi), title='Title', xlabel='X-axis')"
 
+# Example using matplotlib: plt.show()
 pysym.py 'plt.plot(s,t);plt.show()' -v 's=[i for i in range(6)];t=[i**2 for i in s]'
 [<matplotlib.lines.Line2D object at 0x7fe4c0a20670>]
-# matplotlib : plt.show()使用例
 
+# Specify graph size with --size width,height
 pysym.py 'sympy.plot_parametric(cos(x), sin(x), (x, 0, 2*pi))' --size 5,5
-# グラフサイズの指定 --size width,height
 ```
+
 
 #### [Calc-LPpulp.py] - Solve Linear Problem with matrix using PULP
 
