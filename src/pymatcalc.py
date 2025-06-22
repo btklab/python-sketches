@@ -65,26 +65,23 @@ def get_args():
             B 2 1
 
     Functions:
-        スカラー積   : pymatcalc 'C=A*B'
-        アダマール積 : pymatcalc 'C=np.multiply(A, B)'
-        単位行列1    : pymatcalc 'C=np.eye(n, dtype=int)'
-        単位行列2    : pymatcalc 'C=np.identity(n, dtype=int)'
-        転置行列     : pymatcalc 'C=A.T'
-        行列式       : pymatcalc 'C=np.linalg.det(A)*np.eye(1)'
-          - 出力が値の場合は単位行列を掛ける
-
-        逆行列       : pymatcalc 'np.linalg.inv(A)'
-        固有値と固有ベクトル : pymatcalc 'np.linalg.eig(A)[0]'
-        固有値と固有ベクトル : pymatcalc 'np.linalg.eig(A)[1]'
-        内積（ドット積）     : pymatcalc 'np.dot(A, B)'
-        行列積1      : pymatcalc 'A@B'
-        行列積2      : pymatcalc 'np.matmul(A, B)'
-        ベクトル内積 : pymatcalc 'np.inner(A, B)'
-        ベクトル外積 : pymatcalc 'np.outer(A, B)'
-        ランダム行列の生成 : 'C=np.random.randint(-10,10,size=(3,3))'
-
-        連立方程式を解く: pymatcalc 'C=np.linalg.inv(L)@R'
-
+        - Scalar product: pymatcalc 'C=A*B'
+        - Hadamard product (element-wise multiplication): pymatcalc 'C=np.multiply(A, B)'
+        - Identity matrix (method 1): pymatcalc 'C=np.eye(n, dtype=int)'
+        - Identity matrix (method 2): pymatcalc 'C=np.identity(n, dtype=int)'
+        - Transpose matrix: pymatcalc 'C=A.T'
+        - Determinant: pymatcalc 'C=np.linalg.det(A)*np.eye(1)'
+          - When the result is a scalar, multiply by an identity matrix for consistent output shape
+        - Inverse matrix: pymatcalc 'np.linalg.inv(A)'
+        - Eigenvalues: pymatcalc 'np.linalg.eig(A)[0]'
+        - Eigenvectors: pymatcalc 'np.linalg.eig(A)[1]'
+        - Dot product (inner product): pymatcalc 'np.dot(A, B)'
+        - Matrix multiplication (method 1): pymatcalc 'A@B'
+        - Matrix multiplication (method 2): pymatcalc 'np.matmul(A, B)'
+        - Vector inner product: pymatcalc 'np.inner(A, B)'
+        - Vector outer product: pymatcalc 'np.outer(A, B)'
+        - Generate a random matrix: 'C=np.random.randint(-10,10,size=(3,3))'
+        - Solve a system of linear equations: pymatcalc 'C=np.linalg.inv(L)@R'
     """
     help_epi_msg = """EXAMPLES:
     input example:

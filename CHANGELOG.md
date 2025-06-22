@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
-- NA
+- Changed [README.md][] Translate Japanese to English.
 
 ## [0.1.0] - 2025-02-21
 
