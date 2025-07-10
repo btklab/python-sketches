@@ -263,6 +263,51 @@ echo 1 | python pycalc.py 'L=[[3/4,5/2], [-2,1]];R=[-6,-7];np.linalg.solve(L, R)
 [ 2. -3.]
 ```
 
+### Statistics
+
+#### [Get-Dataset.py] - A command-line tool to fetch datasets from the Seaborn library.
+
+[Get-Dataset.py]: src/Get-Dataset.py
+
+Fetch and display datasets from the **Seaborn** library.
+If no arguments are given, it lists all available datasets.
+
+- Usage
+    - man: `python Get-Dataset.py --help`
+    - `Get-Dataset.py [-h] [-l | --detail | -n DATASET_NAME] [-d CHAR]`
+- Dependency
+    - require: `argparse`, `seaborn`, `pandas`
+
+OPTIONS:
+
+```plaintext
+  -h, --help            show this help message and exit
+  -l, --list            List all available dataset names with details (default
+                        action).
+  --detail              List all available dataset names with details (default
+                        action).
+  -n DATASET_NAME, --name DATASET_NAME
+                        Specify the name of the dataset to output as CSV.
+  -d CHAR, --delimiter CHAR
+                        Specify the delimiter for the CSV output. Default is a comma.
+```
+
+EXAMPLES:
+
+```powershell
+# List available datasets (simple, fast)
+python Get-Dataset.py
+
+# List available datasets (detail, slow)
+python Get-Dataset.py --detail
+
+# Output iris dataset as csv
+python Get-Dataset.py -n iris
+python Get-Dataset.py --name iris
+
+# Output iris dataset with specified delimiter
+python Get-Dataset.py -n iris -d ';'
+```
 
 ### Mathematics
 
