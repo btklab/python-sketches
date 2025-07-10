@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - NA
 
+## [0.2.1] - 2025-07-10
+
+- Updated [README.md], [CHANGELOG.md]
+
 ## [0.2.0] - 2025-07-10
 
 - Changed [README.md][] Translate Japanese to English.
@@ -43,6 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [Get-Dataset.py]: src/Get-Dataset.py
 
 
-[unreleased]: https://github.com/btklab/python-sketches/compare/0.1.0..HEAD
+[unreleased]: https://github.com/btklab/python-sketches/compare/0.2.1..HEAD
+[0.2.1]: https://github.com/btklab/python-sketches/releases/tag/0.2.1
+[0.2.0]: https://github.com/btklab/python-sketches/releases/tag/0.2.0
 [0.1.0]: https://github.com/btklab/python-sketches/releases/tag/0.1.0
 
