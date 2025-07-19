@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - NA
 
+## [0.3.0] - 2025-07-19
+
+- Added [Get-YFinance.py][] function.
+
 ## [0.2.1] - 2025-07-10
 
 - Updated [README.md], [CHANGELOG.md]
@@ -41,13 +45,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [Calc-ChemWeightLR.py]: src/Calc-ChemWeightLR.py
 
 [Calc-ChemMassPercent.py]: src/Calc-ChemMassPercent.py
-
 [Calc-LPpulp.py]: src/Calc-LPpulp.py
 
 [Get-Dataset.py]: src/Get-Dataset.py
+[Get-YFinance.py]: src/Get-YFinance.py
 
-
-[unreleased]: https://github.com/btklab/python-sketches/compare/0.2.1..HEAD
+[unreleased]: https://github.com/btklab/python-sketches/compare/0.3.0..HEAD
+[0.3.0]: https://github.com/btklab/python-sketches/releases/tag/0.3.0
 [0.2.1]: https://github.com/btklab/python-sketches/releases/tag/0.2.1
 [0.2.0]: https://github.com/btklab/python-sketches/releases/tag/0.2.0
 [0.1.0]: https://github.com/btklab/python-sketches/releases/tag/0.1.0
