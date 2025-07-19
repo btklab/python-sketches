@@ -20,10 +20,15 @@ script list:
 
 ```powershell
 # One-liner to create function list for PowerShell
-(cat README.md | sls '^#### \[[^[]+\]').Matches.Value.Replace('#### ','') -join ", " | Set-Clipboard
+@(
+    (cat README.md | sls '^#### \[[^[]+\]').Matches.Value.Replace('#### ','') `
+    | sort {
+        -join ( [int[]] ("$_".ToCharArray()) | % { [System.Convert]::ToString($_, 16)})
+        } -Unique `
+ ) -join ", " | Set-Clipboard
 ```
 
-- [pycalc.py], [Get-Dataset.py], [pymatcalc.py], [pysym.py], [Calc-LPpulp.py], [Get-PeriodicTable.py], [Get-MolecularMass.py], [Calc-ChemWeightRL.py], [Calc-ChemWeightLR.py], [Calc-ChemMassPercent.py], [pyplot.py], [pyplot-pandas.py], [pyplot-x-rs.py], [pyplot-timeline2.py]
+- [Calc-ChemMassPercent.py], [Calc-ChemWeightLR.py], [Calc-ChemWeightRL.py], [Calc-LPpulp.py], [Get-Dataset.py], [Get-MolecularMass.py], [Get-PeriodicTable.py], [Get-YFinance], [pycalc.py], [pymatcalc.py], [pyplot-pandas.py], [pyplot-timeline2.py], [pyplot-x-rs.py], [pyplot.py], [pysym.py]
 
 A collection of filters primarily designed for pattern matching on irregular real-world text strings. It expects input in the form of UTF-8 encoded, space-delimited, line-oriented string data passed through a pipeline (text objects).
 
@@ -2843,6 +2848,12 @@ python pyplot-timeline2.py date-label.txt date-val.txt --rot 90  --grid --ylab "
 
 ![pyplot-timeline2 image3](img/pyplot-timeline2-img03.png)
 
+
+### Finance
+
+#### [Get-YFinance] - A script to fetch company financial data using yfinance.
+
+[Get-YFinance]: src/Get-YFinance.py
 
 
 ### Image processing
