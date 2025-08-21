@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added [Convert-Unit.py][] function.
 - Added [Sanitize-FileName.py][] function.
+- Fixed [Get-YFinance.py][] broken argparse description due to misplaced commas.
+
 
 ## [0.3.0] - 2025-07-19
 
