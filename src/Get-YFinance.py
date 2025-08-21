@@ -156,17 +156,17 @@ def main():
     Parses command-line arguments and calls the main function.
     """
     parser = argparse.ArgumentParser(
-        description="A script to fetch company financial data using yfinance.\n"
-                    "If no options are specified, all available information will be fetched.\n"
-                    "\n"
-                    "    references:\n"
-                    "        https://ranaroussi.github.io/yfinance/\n"
-                    "        https://github.com/ranaroussi/yfinance\n"
-                    "\n",
-                    "    example:\n"
-                    "        python Get-YFinance.py AAPL -div 1000000000 -f -o csv
-                    \n",
-                    "\n",
+        description=(
+            "A script to fetch company financial data using yfinance.\n"
+            "If no options are specified, all available information will be fetched.\n"
+            "\n"
+            "    references:\n"
+            "        https://ranaroussi.github.io/yfinance/\n"
+            "        https://github.com/ranaroussi/yfinance\n"
+            "\n"
+            "    example:\n"
+            "        python Get-YFinance.py AAPL -div 1000000000 -f -o csv\n"
+        ),
         formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument("ticker", nargs='?', default=None, type=str, help="Company ticker symbol (e.g., AAPL, 7203.T)")
