@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+- Added [Convert-Unit.py][] function.
 - Added [Sanitize-FileName.py][] function.
 
 ## [0.3.0] - 2025-07-19
@@ -51,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [Get-YFinance.py]: src/Get-YFinance.py
 
 [Sanitize-FileName.py]: src/Sanitize-FileName.py
+[Convert-Unit.py]: src/Convert-Unit.py
 
 
 [unreleased]: https://github.com/btklab/python-sketches/compare/0.3.0..HEAD
