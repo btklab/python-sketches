@@ -28,7 +28,7 @@ script list:
  ) -join ", " | Set-Clipboard
 ```
 
-- [Calc-ChemMassPercent.py], [Calc-ChemWeightLR.py], [Calc-ChemWeightRL.py], [Calc-LPpulp.py], [Get-Dataset.py], [Get-MolecularMass.py], [Get-PeriodicTable.py], [Get-YFinance], [pycalc.py], [pymatcalc.py], [pyplot-pandas.py], [pyplot-timeline2.py], [pyplot-x-rs.py], [pyplot.py], [pysym.py]
+- [Calc-ChemMassPercent.py], [Calc-ChemWeightLR.py], [Calc-ChemWeightRL.py], [Calc-LPpulp.py], [Convert-Unit.py], [Get-Dataset.py], [Get-MolecularMass.py], [Get-PeriodicTable.py], [Get-YFinance], [Sanitize-FileName], [pycalc.py], [pymatcalc.py], [pyplot-pandas.py], [pyplot-timeline2.py], [pyplot-x-rs.py], [pyplot.py], [pysym.py]
 
 A collection of filters primarily designed for pattern matching on irregular real-world text strings. It expects input in the form of UTF-8 encoded, space-delimited, line-oriented string data passed through a pipeline (text objects).
 
@@ -2089,6 +2089,44 @@ Total_T-N     : 6.0 g / 400.0 mL = 0.01 (1.50 w/v%)
 Total_Solid   : 36.0 g / 400.0 mL = 0.09 (9.00 w/v%)
 ```
 
+### Physics
+
+#### [Convert-Unit.py] - Convert physical units using sympy.physics.units
+
+[Convert-Unit.py]: src/Convert-Unit.py
+
+usage:
+
+```powershell
+python Convert-Unit.py [-h] [-n] value from_unit to_unit
+```
+
+positional arguments:
+
+```markdown
+value          Numeric value to convert
+from_unit      Unit to convert from (e.g. 'km')
+to_unit        Unit to convert to (e.g. 'm')
+```
+
+options:
+
+```markdown
+-h, --help     show this help message and exit
+-n, --numeric  Evaluate the result numerically
+```
+
+Examples:
+
+```poweshell
+python Convert-Unit.py 100 cm m       # Convert 100 centimeters to meters
+python Convert-Unit.py 5 cal J -n     # Convert 5 calories to joules (numerically)
+python Convert-Unit.py 10 F C         # Convert 10°F to Celsius
+python Convert-Unit.py 3 BTU kJ       # Convert 3 BTU to kilojoules
+python Convert-Unit.py 36 km/h m/s
+python Convert-Unit.py 500 lm W       # Convert 500 lumens to watts (if applicable)
+```
+
 
 ### Graph and chart
 
@@ -2848,6 +2886,12 @@ python pyplot-timeline2.py date-label.txt date-val.txt --rot 90  --grid --ylab "
 
 ![pyplot-timeline2 image3](img/pyplot-timeline2-img03.png)
 
+
+### FileSystem
+
+#### [Sanitize-FileName] - Replaces characters in a string that are unsuitable for Windows filenames.
+
+[Sanitize-FileName]: src/Sanitize-FileName.py
 
 ### Finance
 
