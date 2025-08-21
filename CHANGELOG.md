@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
-- NA
+- Added [Sanitize-FileName.py][] function.
 
 ## [0.3.0] - 2025-07-19
 
@@ -49,6 +49,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Get-Dataset.py]: src/Get-Dataset.py
 [Get-YFinance.py]: src/Get-YFinance.py
+
+[Sanitize-FileName.py]: src/Sanitize-FileName.py
+
 
 [unreleased]: https://github.com/btklab/python-sketches/compare/0.3.0..HEAD
 [0.3.0]: https://github.com/btklab/python-sketches/releases/tag/0.3.0
