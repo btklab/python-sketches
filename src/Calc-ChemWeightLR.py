@@ -31,7 +31,7 @@ def raise_error(msg, *arg):
     sys.exit(1)
 
 def get_args():
-    help_desc_msg ="""Calc-ChemWeightLR - Chemical weighing calculator using pymatgen
+    help_desc_msg = r"""Calc-ChemWeightLR - Chemical weighing calculator using pymatgen
 
     Synopsis:
         Calculate the weight(gram) of each term in the chemical formula
@@ -73,7 +73,7 @@ def get_args():
         Calc-ChemMassPercent.py
     
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
 
     # Calculate Grams of Carbon dioxide(CO2) from 16g of Methane(CH4)
     "CH4 + 2 O2 -> CO2 + 2 H2O" | python Calc-ChemWeightLR.py -g 16.042

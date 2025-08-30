@@ -79,7 +79,7 @@ def date_type2(date_str):
         raise argparse.ArgumentTypeError(str(e) + " DateTime format ex. 2020-01-01 10:20:30")
 
 def get_args():
-    help_desc_msg ="""pyplot -- data visualization using matplotlib
+    help_desc_msg = r"""pyplot -- data visualization using matplotlib
 
     default behavior is to read data form stdin
     if set -i option, read data from file
@@ -115,7 +115,7 @@ def get_args():
 
     --y2 スイッチで最右列がY2軸でライン、その他はY1軸でBarになる。
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
     cat iris.csv | python pyplot.py -d ","
     cat iris.csv | python pyplot.py -d "," --index
     cat date.csv | python pyplot.py -d "," --datetime --minterval 2 --rot 90 --dformat "%Y-%m`n(%a)"

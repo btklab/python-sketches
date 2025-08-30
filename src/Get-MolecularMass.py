@@ -32,7 +32,7 @@ def raise_error(msg, *arg):
     sys.exit(1)
 
 def get_args():
-    help_desc_msg ="""Get-MolecularMass - Get molecular data using pymatgen
+    help_desc_msg = r"""Get-MolecularMass - Get molecular data using pymatgen
 
     Usage:
         '<comp>, <comp>' | python Get-MolecularMass.py
@@ -72,7 +72,7 @@ def get_args():
         Get-PeriodicTable.py, Get-MolecularMass.py,
         Calc-ChemMassPercent.py
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
 
     # Using PowerShell on Windows:
     "LiFePO4, H4O2, CH2(SO4)2" | python Get-MolecularMass.py --short

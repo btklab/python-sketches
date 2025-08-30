@@ -30,7 +30,7 @@ def raise_error(msg, *arg):
     sys.exit(1)
 
 def get_args():
-    help_desc_msg ="""pymatcalc - Calc matrix using numpy.ndarray
+    help_desc_msg = r"""pymatcalc - Calc matrix using numpy.ndarray
 
     If the input has multiple rows, it will be a matrix.
     If it has only one row, it will be a vector.
@@ -83,7 +83,7 @@ def get_args():
         - Generate a random matrix: 'C=np.random.randint(-10,10,size=(3,3))'
         - Solve a system of linear equations: pymatcalc 'C=np.linalg.inv(L)@R'
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
     input example:
     $ cat matrix
     A 1 1

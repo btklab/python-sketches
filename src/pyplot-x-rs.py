@@ -44,7 +44,7 @@ def raise_error(msg, *arg):
     sys.exit(1)
 
 def get_args():
-    help_desc_msg ="""pyplot-X-Rs -- data visualization using matplotlib
+    help_desc_msg = r"""pyplot-X-Rs -- data visualization using matplotlib
     X-Rs管理図の描画
     検査値が毎回の検査で一個しか得られない場合に用いる
 
@@ -64,7 +64,7 @@ def get_args():
     --ratio スイッチで変化率グラフを追加
     --rolling で差分の累積和グラフを追加
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
     cat dateval.txt | python pyplot-X-Rs.py
     cat dateval.txt | python pyplot-X-Rs.py --x 2 --ratio
     cat dateval.txt | python pyplot-X-Rs.py --x 2 --rolling 10

@@ -30,8 +30,8 @@ def sanitize_filename(filename, replacement='_'):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Sanitizes filenames by replacing invalid Windows characters.",
-        epilog='Example: python %(prog)s "My*File:Name?.txt" -r "-"'
+        description = r"Sanitizes filenames by replacing invalid Windows characters.",
+        epilog = r'Example: python %(prog)s "My*File:Name?.txt" -r "-"'
     )
 
     parser.add_argument(
