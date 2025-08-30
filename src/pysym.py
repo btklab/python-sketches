@@ -227,6 +227,8 @@ def get_args():
     
     **Plotting with Matplotlib**
 
+    # line
+    pysym.py "sympy.plot(-2*x,-x,x,2*x)"
     
     # Sine curve
     pysym.py "sympy.plot(sin(x), (x, -2*pi, 2*pi))"
