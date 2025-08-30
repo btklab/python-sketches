@@ -29,7 +29,7 @@ def raise_error(msg, *arg):
     sys.exit(1)
 
 def get_args():
-    help_desc_msg ="""Calc-ChemMassPercent - Recalculate the mass percent concentration
+    help_desc_msg = r"""Calc-ChemMassPercent - Recalculate the mass percent concentration
 
     Synopsis:
         Calculate mass percent concentration when mixing multiple solutions.
@@ -256,7 +256,7 @@ def get_args():
         Calc-ChemMassPercent.py
 
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
 
     # Dilute a solvent with a weight of 100
     # in which 15 w/w% of something (M1) is dissolved

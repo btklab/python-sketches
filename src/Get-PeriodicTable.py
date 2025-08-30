@@ -32,7 +32,7 @@ def raise_error(msg, *arg):
     sys.exit(1)
 
 def get_args():
-    help_desc_msg ="""Get-PeriodicTable - Get Element data using pymatgen
+    help_desc_msg = r"""Get-PeriodicTable - Get Element data using pymatgen
 
     Dependency:
         pymatgen
@@ -56,7 +56,7 @@ def get_args():
         Get-PeriodicTable.py, Get-MolecularMass.py,
         Calc-ChemMassPercent.py
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
 
     # get specified items (Case sensitive)
     python Get-PeriodicTable.py -f 'Cu,Ag,H' -i "Name, Atomic mass, Boiling point"

@@ -30,7 +30,7 @@ def raise_error(msg, *arg):
     sys.exit(1)
 
 def get_args():
-    help_desc_msg ="""Calc-LPpulp - Solve Linear Problem with matrix using PULP
+    help_desc_msg = r"""Calc-LPpulp - Solve Linear Problem with matrix using PULP
 
     Linear Problem optimizer that expresses objective variables and
     constraints in a matrix.
@@ -166,7 +166,7 @@ def get_args():
         Calc-LPpulp.py
 
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
 
     Solve a Blending Problem
         https://coin-or.github.io/pulp/CaseStudies/a_blending_problem.html

@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+- NA
+
+## [0.3.1] - 2025-08-30
+
+- Fixed Switch help messages to raw strings
 - Added [Convert-Unit.py][] function.
 - Added [Sanitize-FileName.py][] function.
 - Fixed [Get-YFinance.py][] broken argparse description due to misplaced commas.
-
 
 ## [0.3.0] - 2025-07-19
 
@@ -57,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [Convert-Unit.py]: src/Convert-Unit.py
 
 
-[unreleased]: https://github.com/btklab/python-sketches/compare/0.3.0..HEAD
+[unreleased]: https://github.com/btklab/python-sketches/compare/0.3.1..HEAD
+[0.3.1]: https://github.com/btklab/python-sketches/releases/tag/0.3.1
 [0.3.0]: https://github.com/btklab/python-sketches/releases/tag/0.3.0
 [0.2.1]: https://github.com/btklab/python-sketches/releases/tag/0.2.1
 [0.2.0]: https://github.com/btklab/python-sketches/releases/tag/0.2.0

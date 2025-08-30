@@ -82,7 +82,7 @@ def date_type2(date_str):
         raise argparse.ArgumentTypeError(str(e) + " DateTime format ex. 2020-01-01 10:20:30")
 
 def get_args():
-    help_desc_msg ="""pyplot-pandas -- data visualization using matplotlib
+    help_desc_msg = r"""pyplot-pandas -- data visualization using matplotlib
     pandas df.plotを使用したグラフ描画。
     列指定は1始まりとする。
 
@@ -104,7 +104,7 @@ def get_args():
         --vline 10,20,30
         --datetime --vline 2019-08-01,2020-02-01
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
     cat iris.csv | python pyplot-pandas.py -d ","
     cat iris.csv | python pyplot-pandas.py -d "," --index
     cat date.csv | python pyplot.py -d "," --datetime --minterval 2 --rot 90 --dformat "%Y-%m`n(%a)"

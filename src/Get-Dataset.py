@@ -33,7 +33,7 @@ def main():
 If no arguments are given, it lists all available datasets.
     """
     
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
     
     # List available datasets (simple, fast)
     python Get-Dataset.py

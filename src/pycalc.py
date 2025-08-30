@@ -33,7 +33,7 @@ def raise_error(msg, *arg):
     sys.exit(1)
 
 def get_args():
-    help_desc_msg ="""pycalc.py -- python oneliner
+    help_desc_msg = r"""pycalc.py -- python oneliner
 
     pycalc.py <formula;formura;...>
     cat iris.csv | pycalc.py -d "," "df.describe()"
@@ -54,7 +54,7 @@ def get_args():
 
 
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
     ## describe
     cat iris.ssv | python pycalc.py "df.dtypes"
     cat iris.ssv | python pycalc.py "df.describe()"

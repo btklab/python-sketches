@@ -39,7 +39,7 @@ def raise_error(msg, *arg):
     sys.exit(1)
 
 def get_args():
-    help_desc_msg ="""pysym.py -- sympy oneliner using exec
+    help_desc_msg = r"""pysym.py -- sympy oneliner using exec
 
     Usage: 
         pysym.py 'x**2 - 2*x - 15' [--latex|--simplify|--dot] [--sympify]
@@ -68,7 +68,7 @@ def get_args():
         import math
         import matplotlib.pyplot as plt
     """
-    help_epi_msg = """EXAMPLES:
+    help_epi_msg = r"""EXAMPLES:
 
     **Use as a calculator**
 
