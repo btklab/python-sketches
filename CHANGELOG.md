@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
-- NA
+- Changed [pysym.py][] Allow reading from a file instead of using a formula.
+
 
 ## [0.3.1] - 2025-08-30
 
