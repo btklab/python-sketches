@@ -229,10 +229,19 @@ def get_args():
 
     # line
     pysym.py "sympy.plot(-2*x,-x,x,2*x)"
+
+    # circle
+    pysym.py "sympy.plot_implicit(x**2 + y**2 - 1)" --grid
+    pysym.py "sympy.plot_parametric(cos(x), sin(x), (x, 0, 2*pi))" --grid
+
+    # hyperbola
+    pysym.py "sympy.plot_implicit(x**2 - y**2 - 1)" --grid
     
     # Sine curve
     pysym.py "sympy.plot(sin(x), (x, -2*pi, 2*pi))"
     pysym.py "sympy.plot(sin(x), (x, -2*pi, 2*pi), title='Title', xlabel='X-axis')"
+    pysym.py "sympy.plot(sin(x), cos(x), (x, -2*pi, 2*pi), legend=True)" --grid
+    pysym.py "sympy.plot(sin(x),xlim=(0,2*pi))" --grid
 
     # Example using matplotlib: plt.show()
     pysym.py 'plt.plot(s,t);plt.show()' -v 's=[i for i in range(6)];t=[i**2 for i in s]'
@@ -260,6 +269,8 @@ def get_args():
     parser.add_argument("-v", "--variable", help='<variable>=<string>;...', type=sp)
     parser.add_argument("-i", "--inputfile", help='input from data file', type=str)
     parser.add_argument('--size', help='graph size: w inch, h inch', type=tp)
+    parser.add_argument("--grid", help="Add grid to plot using seaborn-whitegrid", action="store_true")
+    parser.add_argument("--style", help="Show plot style", action="store_true")
     parser.add_argument("--debug", help="output dataframe", action="store_true")
     #parser.print_help()
     args = parser.parse_args()
@@ -302,6 +313,11 @@ if __name__ == '__main__':
     if re.search(r'plot|plt', args.formula):
         import matplotlib.pyplot as plt
         from matplotlib import rcParams
+        if args.style:
+            print(plt.style.available)
+        if args.grid:
+            from matplotlib import style
+            style.use('seaborn-v0_8-whitegrid')
         rcParams['font.family'] = 'sans-serif'
         rcParams['font.sans-serif'] = ['IPAexGothic','MS Gothic', 'Yu Gothic']
         plt.rcParams['pdf.fonttype'] = 42
