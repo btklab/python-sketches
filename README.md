@@ -28,7 +28,7 @@ script list:
  ) -join ", " | Set-Clipboard
 ```
 
-- [Calc-ChemMassPercent.py], [Calc-ChemWeightLR.py], [Calc-ChemWeightRL.py], [Calc-LPpulp.py], [Convert-Unit.py], [Get-Dataset.py], [Get-MolecularMass.py], [Get-PeriodicTable.py], [Get-YFinance], [Sanitize-FileName], [pycalc.py], [pymatcalc.py], [pyplot-pandas.py], [pyplot-timeline2.py], [pyplot-x-rs.py], [pyplot.py], [pysym.py]
+- [Calc-ChemMassPercent.py], [Calc-ChemWeightLR.py], [Calc-ChemWeightRL.py], [Calc-LPpulp.py], [Convert-Unit.py], [Get-Dataset.py], [Get-MolecularMass.py], [Get-PeriodicTable.py], [Get-YFinance], [Invoke-Link], [Sanitize-FileName], [pycalc.py], [pymatcalc.py], [pyplot-pandas.py], [pyplot-timeline2.py], [pyplot-x-rs.py], [pyplot.py], [pysym.py]
 
 A collection of filters primarily designed for pattern matching on irregular real-world text strings. It expects input in the form of UTF-8 encoded, space-delimited, line-oriented string data passed through a pipeline (text objects).
 
@@ -2892,6 +2892,10 @@ python pyplot-timeline2.py date-label.txt date-val.txt --rot 90  --grid --ylab "
 #### [Sanitize-FileName] - Replaces characters in a string that are unsuitable for Windows filenames.
 
 [Sanitize-FileName]: src/Sanitize-FileName.py
+
+#### [Invoke-Link] - Open file/web links written in a text file.
+
+[Invoke-Link]: src/Invoke-Link.py
 
 ### Finance
 

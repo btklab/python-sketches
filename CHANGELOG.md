@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 
 - Changed [pysym.py][] Allow reading from a file instead of using a formula.
-
+- Added [Invoke-Link][] function
 
 ## [0.3.1] - 2025-08-30
 
@@ -60,6 +60,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Sanitize-FileName.py]: src/Sanitize-FileName.py
 [Convert-Unit.py]: src/Convert-Unit.py
+
+[Invoke-Link]: src/Invoke-Link.py
+
 
 
 [unreleased]: https://github.com/btklab/python-sketches/compare/0.3.1..HEAD
