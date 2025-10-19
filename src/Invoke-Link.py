@@ -4,7 +4,7 @@
 import argparse
 import re
 import subprocess
-import sys, os
+import sys, os, io
 import webbrowser
 from pathlib import Path
 
