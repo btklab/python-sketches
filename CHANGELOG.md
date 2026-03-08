@@ -9,9 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - NA
 
-## [0.4.0]
+## [0.4.1]
 
 - Added [excel2csv][] fuction.
+
+## [0.4.0]
+
 - Added [https_server_nocache.py][] fuction.
 - Changed [pysym.py][] Allow reading from a file instead of using a formula.
 - Added [Invoke-Link][] function
@@ -73,7 +76,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [excel2csv]: src/excel2csv.py
 
 
-[unreleased]: https://github.com/btklab/python-sketches/compare/0.3.1..HEAD
+[unreleased]: https://github.com/btklab/python-sketches/compare/0.4.1..HEAD
+[0.4.1]: https://github.com/btklab/python-sketches/compare/0.4.1
+[0.4.0]: https://github.com/btklab/python-sketches/compare/0.4.0
 [0.3.1]: https://github.com/btklab/python-sketches/releases/tag/0.3.1
 [0.3.0]: https://github.com/btklab/python-sketches/releases/tag/0.3.0
 [0.2.1]: https://github.com/btklab/python-sketches/releases/tag/0.2.1
