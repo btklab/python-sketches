@@ -21,9 +21,10 @@ from datetime import datetime
 # Attempt to load external dependencies.
 try:
     import pandas as pd
+    import openpyxl
 except ImportError:
-    sys.stderr.write("Dependency Error: 'pandas' is required.\n")
-    sys.stderr.write("Install via: pip install pandas \n")
+    sys.stderr.write("Dependency Error: 'pandas and open' are required.\n")
+    sys.stderr.write("Install via: pip install pandas openpyxl \n")
     sys.exit(1)
 
 _version = "2.0.0"
