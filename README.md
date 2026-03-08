@@ -28,7 +28,7 @@ script list:
  ) -join ", " | Set-Clipboard
 ```
 
-- [Calc-ChemMassPercent.py], [Calc-ChemWeightLR.py], [Calc-ChemWeightRL.py], [Calc-LPpulp.py], [Convert-Unit.py], [Get-Dataset.py], [Get-MolecularMass.py], [Get-PeriodicTable.py], [Get-YFinance], [Invoke-Link], [Sanitize-FileName], [pycalc.py], [pymatcalc.py], [pyplot-pandas.py], [pyplot-timeline2.py], [pyplot-x-rs.py], [pyplot.py], [pysym.py]
+- [Calc-ChemMassPercent.py], [Calc-ChemWeightLR.py], [Calc-ChemWeightRL.py], [Calc-LPpulp.py], [Convert-Unit.py], [Get-Dataset.py], [Get-MolecularMass.py], [Get-PeriodicTable.py], [Get-YFinance], [Invoke-Link], [Sanitize-FileName], [excel2csv.py], [pycalc.py], [pymatcalc.py], [pyplot-pandas.py], [pyplot-timeline2.py], [pyplot-x-rs.py], [pyplot.py], [pysym.py]
 
 A collection of filters primarily designed for pattern matching on irregular real-world text strings. It expects input in the form of UTF-8 encoded, space-delimited, line-oriented string data passed through a pipeline (text objects).
 
@@ -2089,6 +2089,21 @@ Total_T-N     : 6.0 g / 400.0 mL = 0.01 (1.50 w/v%)
 Total_Solid   : 36.0 g / 400.0 mL = 0.09 (9.00 w/v%)
 ```
 
+#### [excel2csv.py] - xlsx converter with data processing.
+
+[excel2csv.py]: src/excel2csv.py
+
+Converts one or more Excel files to a delimited text format (CSV/TSV).
+Supports smart date detection, data trimming, and duplicate removal.
+
+```
+usage: excel2csv.py [-h] [-s SHEET] [-l] [--skip SKIP] [--drop-duplicates] [-n] [-t]
+                    [-d DATE_FORMAT] [--csv | --tsv | --ssv] [-o OUTPUT] [-V]
+                    input_files [input_files ...]
+```
+
+
+
 ### Physics
 
 #### [Convert-Unit.py] - Convert physical units using sympy.physics.units
@@ -2886,6 +2901,14 @@ python pyplot-timeline2.py date-label.txt date-val.txt --rot 90  --grid --ylab "
 
 ![pyplot-timeline2 image3](img/pyplot-timeline2-img03.png)
 
+
+### Web
+
+#### [https_server_nocache.py] - HTTP/HTTPS server disables browser caching for sensitive data security.
+
+[https_server_nocache.py]: src/https_server_nocache.py
+
+**Purpose**: Safely share sensitive files (e.g., personal or financial) within a trusted LAN environment. Designed for temporary use; not recommended for internet exposure.
 
 ### FileSystem
 
